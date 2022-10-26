@@ -8,6 +8,7 @@ TagManager:
   - Witch
   - Sound
   - Floor
+  - Player2
   layers:
   - Default
   - TransparentFX

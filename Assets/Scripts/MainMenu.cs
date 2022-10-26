@@ -4,13 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public static class Globals
-{
-    //Set Game global variables:
-    public static int numPlayers = 1;
-
-    public static int hitContinue = 0;
-}
 
 public class MainMenu : MonoBehaviour
 {

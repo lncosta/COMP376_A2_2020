@@ -6,6 +6,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
+    public static int id = 0;
+
+    public int playerID; 
+
     public Animator animator;
     public static Player instance;
     //AnimatorOverrideController animator;
@@ -45,6 +49,11 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        id++;
+
+        playerID = id; //Setting 
+
+
         rb = gameObject.GetComponent<Rigidbody>();
         isSliding = false;
         coins = 0;
@@ -59,7 +68,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
        // Debug.Log(isGrounded);
        if(Time.timeScale == 0)
         {
@@ -153,16 +162,6 @@ public class Player : MonoBehaviour
         }
         animator.SetBool("Grounded", isGrounded);
         //animator.SetBool("Sliding", isSliding);
-
-
-        if (Input.GetKeyDown(KeyCode.RightShift))
-        {
-            //Cheat mode to add coins (debug only):
-
-            coins += 10;
-            lives--;
-
-        }
 
         animator.SetBool("Shooting", isShooting);
 

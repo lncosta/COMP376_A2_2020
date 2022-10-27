@@ -29,7 +29,7 @@ public class ShootMagic : MonoBehaviour
     {
 
 
-        if (Input.GetButton(player.mouse1))
+        if (Input.GetButton(player.mouse1) && player.isActive)
         {
             Ray ray = m_Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

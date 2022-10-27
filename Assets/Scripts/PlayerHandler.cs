@@ -15,7 +15,9 @@ public class PlayerHandler : MonoBehaviour
     public float playerSize = 1.0f; 
 
     public float xMin, xMax;
-    public Vector2 screenBoundary; 
+    public Vector2 screenBoundary;
+
+    public int activePlayer = 0; 
 
 
     // Start is called before the first frame update
@@ -34,31 +36,40 @@ public class PlayerHandler : MonoBehaviour
         
         xMin = screenBoundary.x - playerSize + camera.transform.position.x;
         xMax = screenBoundary.x * (-1) + playerSize + +camera.transform.position.x;
-        DistanceCorrection();
+       
+        if (player1 != null && player2 != null)
+        { //If there are two players...
+            if (Input.GetKeyDown(KeyCode.L))
+            { //Switch player aim control; 
+
+                activePlayer++;
+
+                activePlayer = activePlayer % 2;
+
+                if(activePlayer == 0)
+                {
+                    player1.GetComponent<Player>().isActive = true;
+                    player2.GetComponent<Player>().isActive = false;
+                }
+                else
+                {
+                    player2.GetComponent<Player>().isActive = true;
+                    player1.GetComponent<Player>().isActive = false;
+                }
+
+            }
+
+            DistanceCorrection();
+        }
+
     }
 
     void DistanceCorrection()
     {
-        if(player1 != null && player2 != null)
-        {
-            Vector3 distance = player1.transform.position - player2.transform.position;
-            float magnitude = distance.magnitude;
-            
-
-            if(Math.Abs(magnitude) > 10)
-            {
-                
-
-
-            }
-
             Vector3 updatedPos = player2.transform.position; 
             updatedPos.x = Mathf.Clamp(player2.transform.position.x, xMax, xMin);
-
-
             player2.transform.position = updatedPos; 
 
-
-        }
+        
     }
 }

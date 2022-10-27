@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
    
 
     public AudioSource land;
+
+    public bool isActive = false; 
     // Start is called before the first frame update
     void Start()
     {

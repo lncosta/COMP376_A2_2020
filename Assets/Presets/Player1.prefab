@@ -2418,6 +2418,7 @@ MonoBehaviour:
   ghost_handler: {fileID: 3373137358235328315}
   coinSound: {fileID: 3373137359057431890}
   land: {fileID: 0}
+  isActive: 1
 --- !u!1 &2487071091652393317
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,7 +30,7 @@ public class ShootMagic : MonoBehaviour
 
 
         if (Input.GetButton(player.mouse1) && player.isActive)
-        {
+        { //Aim for active player
             Ray ray = m_Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -49,8 +49,9 @@ public class ShootMagic : MonoBehaviour
            
 
         if (Input.GetButtonDown(player.mouse0))
-        {
+        { //Shoot magic ball
             var sphere = Instantiate(MagicSphere, spawnLocation.position, spawnLocation.rotation);
+            sphere.GetComponent<MagicBullet>().player = player; 
             sphere.GetComponent<Rigidbody>().velocity = player.transform.forward * speed;
             soundEffect.Play();
             player.shoot();

@@ -751,6 +751,7 @@ MonoBehaviour:
   ghost_handler: {fileID: 553977968}
   coinSound: {fileID: 1645298080}
   land: {fileID: 0}
+  isActive: 0
 --- !u!108 &547088
 Light:
   m_ObjectHideFlags: 0

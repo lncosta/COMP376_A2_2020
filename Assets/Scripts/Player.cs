@@ -47,7 +47,10 @@ public class Player : MonoBehaviour
 
     public AudioSource land;
 
-    public bool isActive = false; 
+    public bool isActive = false;
+
+    public int consecutiveDamageTaken = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -187,6 +190,20 @@ public class Player : MonoBehaviour
     public Vector3 getPosition()
     {
         return transform.position;
+    }
+
+    public void TakeDamage()
+    {
+        Debug.Log("Player took damage!");
+        consecutiveDamageTaken++;
+
+        if(consecutiveDamageTaken >= 5)
+        {
+            lives--;
+            consecutiveDamageTaken = 0;
+            Debug.Log("Player lost a life!");
+            ghost_handler.Trigger();
+        }
     }
 
     void OnCollisionStay(Collision collision)

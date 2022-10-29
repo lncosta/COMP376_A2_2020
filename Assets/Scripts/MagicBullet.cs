@@ -7,8 +7,13 @@ public class MagicBullet : MonoBehaviour
 {
     public float count = 10;
     public Player player;
+
+    private Timer timer;
     private void Awake()
     {
+        count = 5;
+        timer = gameObject.AddComponent(typeof(Timer)) as Timer;
+        timer.timeLeft = count; 
         Destroy(gameObject, count); //Destroy object after x seconds
     }
 
@@ -16,10 +21,12 @@ public class MagicBullet : MonoBehaviour
     {
         if(collision.gameObject.tag == "Enemy")
         { //Kill goon
-            Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            Debug.Log("Player killed a goon!");
+            //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
             player.giveCoins(collision.gameObject.GetComponent<EnemyAI>().coins);
             collision.gameObject.GetComponent<EnemyAI>().playDeath();
             Destroy(gameObject);
+            return;
         }
         else if (collision.gameObject.tag == "Witch")
         { //Kill witch once she has taken five shots
@@ -27,18 +34,40 @@ public class MagicBullet : MonoBehaviour
             int ret = collision.gameObject.GetComponent<Witch>().getShot();
             if (ret > 0)
             {
-                Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
                 player.giveCoins(ret);
                
             }
             Destroy(gameObject);
 
         }
-        else{ //Shot is missed
-            Debug.Log("Player missed a Shot!");
-            Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            player.missedShotsCounter++;
+        else if (collision.gameObject.tag == "Bear")
+        {
+            Debug.Log("Hit the boss!");
+            int ret = 0;
+
+            if (player.playerID == 2)
+            {
+                ret = collision.gameObject.GetComponentInParent<Bear>().TakeDamageP2(10);
+            }
+            else
+            {
+                 ret = collision.gameObject.GetComponentInParent<Bear>().TakeDamageP1(10);
+                
+            }
             Destroy(gameObject);
+
+
+        }
+        else{ //Shot is missed
+            if(timer.timeLeft == 0)
+            {
+                Debug.Log("Player missed a Shot!");
+                //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                player.missedShotsCounter++;
+                Destroy(gameObject);
+            }
+            
         }
        
     }

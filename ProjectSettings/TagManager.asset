@@ -9,6 +9,8 @@ TagManager:
   - Sound
   - Floor
   - Player2
+  - Boss
+  - Bear
   layers:
   - Default
   - TransparentFX

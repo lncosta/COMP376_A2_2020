@@ -23,6 +23,9 @@ public class EnemySpawner : MonoBehaviour
 
     public AudioSource enemySpawnSound;
     public AudioSource witchSpawnSound;
+
+
+    public GameObject boss; 
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +36,11 @@ public class EnemySpawner : MonoBehaviour
         }
 
         timer = gameObject.AddComponent<Timer>();
-        timer.timeLeft = 30;
-        timer.timeDefault = 30;
-        
+        timer.timeLeft = 15;
+        timer.timeDefault = 15;
+
+        boss.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -62,6 +67,13 @@ public class EnemySpawner : MonoBehaviour
             timer.Reset();
             enemyWaves--;
             enemySpawnSound.Play();
+        }
+
+        //Spawning Boss after all waves are done:
+        if(enemyWaves <= 0)
+        {
+            enemySpawnSound.Play(); 
+            boss.SetActive(true); 
         }
 
         

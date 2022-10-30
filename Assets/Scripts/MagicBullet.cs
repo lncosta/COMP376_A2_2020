@@ -9,12 +9,41 @@ public class MagicBullet : MonoBehaviour
     public Player player;
 
     private Timer timer;
+
+    public int counter = 0;
     private void Awake()
     {
         count = 5;
         timer = gameObject.AddComponent(typeof(Timer)) as Timer;
-        timer.timeLeft = count; 
-        Destroy(gameObject, count); //Destroy object after x seconds
+        timer.timeLeft = 3;
+        timer.timeDefault = 3;
+        timer.running = true;
+        timer.Reset();
+        counter = 0; 
+        //Destroy(gameObject, count); //Destroy object after x seconds
+    }
+
+    private void Update()
+    {
+        if (!timer.running)
+        {
+            if(counter == 0)
+            {
+                Debug.Log("Player missed a Shot!");
+                player.missedShotsCounter++;
+                Destroy(gameObject);
+                return; 
+
+            }    
+            for(int i = 1; i < counter; i++)
+            {
+                Debug.Log("Bonus!");
+                player.giveCoins(5); //Bonus 
+            }
+
+            Destroy(gameObject);
+
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -25,7 +54,9 @@ public class MagicBullet : MonoBehaviour
             //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
             player.giveCoins(collision.gameObject.GetComponent<EnemyAI>().coins);
             collision.gameObject.GetComponent<EnemyAI>().playDeath();
-            Destroy(gameObject);
+            //Destroy(gameObject);
+
+            counter++;
             return;
         }
         else if (collision.gameObject.tag == "Witch")
@@ -66,9 +97,13 @@ public class MagicBullet : MonoBehaviour
                 //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
                 player.missedShotsCounter++;
                 Destroy(gameObject);
+                //timer.Reset();
             }
+           
             
         }
        
     }
+
+
 }

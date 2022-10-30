@@ -23,30 +23,44 @@ public class Bear : MonoBehaviour
 
     public GameObject bearObject;
 
+    private Timer timer;
+
+    public int attackFrequency = 5; 
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        timer = gameObject.AddComponent(typeof(Timer)) as Timer;
+        timer.timeLeft = 5;
+        timer.timeDefault = attackFrequency;
+        timer.running = true;
+        timer.Reset();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (!timer.running || Input.GetKeyDown(KeyCode.J))
         {
             ShootFire();
+            timer.Reset();
         }
     }
 
-    public void Attack()
+    public void Attack(GameObject player)
     {
+        Player p = player.GetComponent<Player>();
 
+        p.TakeDamage();
+
+        soundEffect.Play();
+        animator.Play("Attack1");
     }
 
     public void ShootFire()
     {
 
-        for(int i = 0; i < 5; i++)
+        for(int i = -2; i < 5; i++)
         {
             var sphere = Instantiate(MagicSphere, spawnLocation.position + new Vector3(0, i, 0), spawnLocation.rotation);
 
@@ -108,6 +122,8 @@ public class Bear : MonoBehaviour
             playerHandler.GetComponent<PlayerHandler>().AwardPoints(2, coinsToGive/2);
             playerHandler.GetComponent<PlayerHandler>().AwardPoints(1, coinsToGive/2);
         }
-        Destroy(bearObject); 
+
+        animator.Play("Death");
+        Destroy(gameObject, 2); 
     }
 }

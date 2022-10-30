@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   count: 1
   player: {fileID: 0}
+  counter: 0
 --- !u!108 &644610677788901060
 Light:
   m_ObjectHideFlags: 0

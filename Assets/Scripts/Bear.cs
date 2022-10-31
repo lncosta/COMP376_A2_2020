@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Bear : MonoBehaviour
 {
@@ -20,12 +21,15 @@ public class Bear : MonoBehaviour
     public int p2hits = 0;
 
     public GameObject playerHandler;
+    public GameObject player1; 
 
     public GameObject bearObject;
+    public Rigidbody bearObjectRigidbody;
 
     private Timer timer;
 
-    public int attackFrequency = 5; 
+    public int attackFrequency = 5;
+    public int enemySpeed = 3; 
 
     // Start is called before the first frame update
     void Start()
@@ -43,8 +47,21 @@ public class Bear : MonoBehaviour
         if (!timer.running || Input.GetKeyDown(KeyCode.J))
         {
             ShootFire();
+            //MoveTowardsPlayer();
             timer.Reset();
         }
+
+       
+
+
+    }
+
+    public void MoveTowardsPlayer()
+    {
+        Vector3 moveDir = new Vector3((bearObject.transform.position.x - player1.transform.position.x), 0, 0);
+        transform.Translate(-moveDir.normalized * enemySpeed);
+        Debug.Log(-moveDir.normalized * enemySpeed);
+
     }
 
     public void Attack(GameObject player)

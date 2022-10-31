@@ -11,7 +11,7 @@ public class Fireball : MonoBehaviour
         Destroy(gameObject, count); //Destroy object after x seconds
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player")
         { //Player takes damage

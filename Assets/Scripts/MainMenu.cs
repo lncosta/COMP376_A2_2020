@@ -20,12 +20,14 @@ public class MainMenu : MonoBehaviour
    public void LoadScene(int x)
     {
         toPlay.Play();
+        Globals.currentLevel = x;
         SceneManager.LoadScene(x);
     }
    public void PlayLevel1()
     {
         generatePlayerData();
         toPlay.Play();
+        Globals.currentLevel = 1;
         Debug.Log("Level 1");
         SceneManager.LoadScene(1);
     }

@@ -23,11 +23,34 @@ public class PointManager : MonoBehaviour
         {
             GameObject.Find("Coins").GetComponent<TextMeshProUGUI>().SetText("Coins: " + player1.GetComponent<Player>().getScore());
             GameObject.Find("Lives").GetComponent<TextMeshProUGUI>().SetText("Lives: " + player1.GetComponent<Player>().getLives());
+
+            string toAdd = "P1 : ";
+            for(int i = 0; i < player1.GetComponentInChildren<ShootMagic>().shotsLeft; i++)
+            {
+                toAdd = toAdd + " o ";
+            }
+
+            GameObject.Find("Shots P1").GetComponent<TextMeshProUGUI>().SetText(toAdd);
         }
         else if (Globals.numPlayers == 2)
         {
             GameObject.Find("Coins").GetComponent<TextMeshProUGUI>().SetText("Coins (P1): " + player1.GetComponent<Player>().getScore() + "\n" + "Coins (P2): " + player2.GetComponent<Player>().getScore());
             GameObject.Find("Lives").GetComponent<TextMeshProUGUI>().SetText("Lives (P1): " + player1.GetComponent<Player>().getLives() + "\n" + "Lives (P2): " + player2.GetComponent<Player>().getLives());
+            string toAdd = "P1 : ";
+            for (int i = 0; i < player1.GetComponentInChildren<ShootMagic>().shotsLeft; i++)
+            {
+                toAdd = toAdd + " o ";
+            }
+
+            GameObject.Find("Shots P1").GetComponent<TextMeshProUGUI>().SetText(toAdd);
+
+            string toAdd2 = "P2 : ";
+            for (int i = 0; i < player2.GetComponentInChildren<ShootMagic>().shotsLeft; i++)
+            {
+                toAdd2 = toAdd2 + " o ";
+            }
+
+            GameObject.Find("Shots P2").GetComponent<TextMeshProUGUI>().SetText(toAdd2);
         }
 
         /*if (player3 != null)

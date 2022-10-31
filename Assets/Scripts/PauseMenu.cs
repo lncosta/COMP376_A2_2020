@@ -20,6 +20,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause"))
         {
+            Globals.gamePaused = true;
             Pause();
             Debug.Log("Paused Game");
         }
@@ -34,6 +35,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        Globals.gamePaused = false;
         Time.timeScale = 1;
         panel.SetActive(false);
         //points.SetActive(true);

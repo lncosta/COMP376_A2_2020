@@ -17,8 +17,15 @@ public class PlayerHandler : MonoBehaviour
     public float xMin, xMax;
     public Vector2 screenBoundary;
 
-    public int activePlayer = 0; 
+    public int activePlayer = 0;
 
+    public Timer specialModeTimer;
+
+    public int specialModeTimeDuration = 5;
+
+    public AudioSource specialModeSound;
+    public AudioSource specialModeSoundEnd;
+    public GameObject specialModeLight; 
 
     // Start is called before the first frame update
     void Start()
@@ -40,13 +47,45 @@ public class PlayerHandler : MonoBehaviour
             }
         }
 
+        //Special Mode Handling:
+        Globals.specialMode = false;
+        specialModeTimer = gameObject.AddComponent<Timer>();
+        specialModeTimer.timeDefault = specialModeTimeDuration;
+        specialModeTimer.running = false;
+        specialModeTimer.timeLeft = 0; 
+
         LoadPlayerData(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+        //Special Mode Handling:
+
+        if (Input.GetKeyDown(KeyCode.Tab) && !Globals.specialMode)
+        {
+            Globals.specialMode = true;
+            specialModeTimer.Reset();
+            specialModeSound.Play();
+            specialModeLight.SetActive(true);
+        }
+
+        if (!specialModeTimer.running)
+        {
+            if (Globals.specialMode)
+            {
+                Globals.specialMode = false;
+                specialModeSound.Stop();
+                specialModeLight.SetActive(false);
+                specialModeSoundEnd.Play();
+            }
+           
+          
+        }
+
+
+
         xMin = screenBoundary.x - playerSize + camera.transform.position.x;
         xMax = screenBoundary.x * (-1) + playerSize + +camera.transform.position.x;
        

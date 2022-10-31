@@ -1600,6 +1600,7 @@ GameObject:
   - component: {fileID: 4252569924096566224}
   - component: {fileID: 4252569924096566225}
   - component: {fileID: 4252569924096566229}
+  - component: {fileID: 399214398}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Enemy
@@ -1703,6 +1704,20 @@ MonoBehaviour:
   coins: 10
   timeLeft: 15
   running: 0
+  specialModeMod: 1
+--- !u!65 &399214398
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5198777702499543579}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.5, z: 1.5}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5339513743361877769
 GameObject:
   m_ObjectHideFlags: 0

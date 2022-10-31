@@ -25,6 +25,10 @@ public class EnemyAI : MonoBehaviour
     public float timeLeft = 30;
     public bool running = false;
 
+    public int specialModeMod = 1; 
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,12 +41,21 @@ public class EnemyAI : MonoBehaviour
 
         running = true;
 
+        specialModeMod = 1; //Speed modifier during special mode
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (Globals.specialMode)
+        {
+            specialModeMod = 2;
+        }
+        else
+        {
+            specialModeMod = 1;
+        }
         if (running)
         {
 
@@ -73,11 +86,11 @@ public class EnemyAI : MonoBehaviour
            
             if (moveHor < 0)
             {
-                rb.AddForce(movement_limited * speed);
+                rb.AddForce(movement_limited * speed * specialModeMod);
             }
             else
             {
-                rb.AddForce(movement_limited * speed);
+                rb.AddForce(movement_limited * speed * specialModeMod);
             }
 
            
@@ -91,7 +104,7 @@ public class EnemyAI : MonoBehaviour
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, target, Time.deltaTime * 1000.0f);
             }
            
-            transform.position += movement_limited * Time.deltaTime * speed;
+            transform.position += movement_limited * Time.deltaTime * speed * specialModeMod;
         }
     }
 
@@ -142,5 +155,19 @@ public class EnemyAI : MonoBehaviour
     {
         animator.Play("Die");
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.transform.tag == "Player")
+        {
+
+            Debug.Log("Player was attacked!");
+            Player p = other.gameObject.GetComponent<Player>();
+
+            p.TakeDamage();
+            animator.SetTrigger("Attack"); 
+           
+        }
     }
 }

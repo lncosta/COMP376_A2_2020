@@ -24,6 +24,8 @@ public class EnemySpawner : MonoBehaviour
     public AudioSource enemySpawnSound;
     public AudioSource witchSpawnSound;
 
+    public int spawnSpecialModifier = 1;
+
 
     public GameObject boss; 
     // Start is called before the first frame update
@@ -39,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
         timer.timeLeft = 15;
         timer.timeDefault = 15;
 
+        spawnSpecialModifier = 1; 
         boss.SetActive(false);
 
     }
@@ -46,6 +49,19 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0 || Globals.gamePaused)
+        {
+            return;
+        }
+
+        if (Globals.specialMode)
+        {
+            spawnSpecialModifier = 2;
+        }
+        else
+        {
+            spawnSpecialModifier = 1;
+        }
         float chance = Random.Range(0, 1);
         if (timer.timeLeft == 0 && enemyWaves > 0)
         { //Spawn waves of enemies every x seconds, with a max number of waves per level
@@ -59,7 +75,7 @@ public class EnemySpawner : MonoBehaviour
 
             }
 
-            for (var i = 0; i < numberToSpawn / 2; i++)
+            for (var i = 0; i < (numberToSpawn * spawnSpecialModifier) / 2; i++)
             {
                 float x = Random.Range(marker1.transform.position.x, marker2.transform.position.x);
                 Instantiate(goonPrefab, new Vector3(x, yaxis, zaxis), Quaternion.Euler(0, 45, 0));  //Instantiates goons within position range

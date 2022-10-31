@@ -25,6 +25,10 @@ public class AttackZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (Time.timeScale == 0 || Globals.gamePaused)
+        {
+            return;
+        }
         if (other.gameObject.tag == "Player")
         {
             bear.Attack(other.gameObject);
@@ -34,6 +38,10 @@ public class AttackZone : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (Time.timeScale == 0 || Globals.gamePaused)
+        {
+            return;
+        }
         if (other.gameObject.tag == "Player")
         {
            if(timer.timeLeft == 0) //Attack every 3 seconds

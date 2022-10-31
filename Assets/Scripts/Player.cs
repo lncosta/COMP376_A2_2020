@@ -51,6 +51,9 @@ public class Player : MonoBehaviour
 
     public int consecutiveDamageTaken = 0;
 
+
+    public AudioSource damageTakenSound; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +78,7 @@ public class Player : MonoBehaviour
     {
         
        // Debug.Log(isGrounded);
-       if(Time.timeScale == 0)
+       if(Time.timeScale == 0 || Globals.gamePaused)
         {
             return;
         }
@@ -135,11 +138,11 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown(jump) && isGrounded)
         {
-            
-            //Jump Mechanic
-            rb.AddForce(jumpVector * jumpSpeed, ForceMode.Impulse);
             isGrounded = false;
             isSliding = false;
+            //Jump Mechanic
+            rb.AddForce(jumpVector * jumpSpeed * 2, ForceMode.Impulse);
+            
 
         }
         else if (Input.GetButtonDown(dash) && isGrounded)
@@ -196,6 +199,7 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Player took damage!");
         consecutiveDamageTaken++;
+        damageTakenSound.Play();
 
         if(consecutiveDamageTaken >= 5)
         {
@@ -213,6 +217,15 @@ public class Player : MonoBehaviour
             isGrounded = true;
         }
             
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.transform.tag == "Floor")
+        {
+            isGrounded = false;
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)

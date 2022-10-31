@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -24,6 +25,12 @@ public static class Globals
 
     public static PlayerData p1 = null;
     public static PlayerData p2 = null;
+
+    public static int currentLevel = 0;
+
+    public static bool gamePaused = false; 
+
+
 }
 
 

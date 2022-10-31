@@ -38,6 +38,7 @@ public class MainMenu : MonoBehaviour
         Globals.p1.coins = 0;
         Globals.p1.lives = 3;
         Globals.p1.id = 1;
+        Globals.p1.specialModeLootHeld = 1;
         Globals.p1.prefab = p1prefab;
 
         if (Globals.numPlayers > 1)
@@ -47,6 +48,7 @@ public class MainMenu : MonoBehaviour
             Globals.p2.coins = 0;
             Globals.p2.lives = 3;
             Globals.p2.id = 1;
+            Globals.p2.specialModeLootHeld = 1;
             Globals.p2.prefab = p2prefab;
         }
     }

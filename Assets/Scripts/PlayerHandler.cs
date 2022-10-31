@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class PlayerHandler : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class PlayerHandler : MonoBehaviour
 
         if(Globals.numPlayers < 2)
         {
+           
             if(player2 != null)
             {
                 player2.SetActive(false); 
@@ -115,6 +117,13 @@ public class PlayerHandler : MonoBehaviour
         }
 
     }
+    public void TriggerSpecialMode()
+    {
+        Globals.specialMode = true;
+        specialModeTimer.Reset();
+        specialModeSound.Play();
+        specialModeLight.SetActive(true);
+    }
 
     void DistanceCorrection()
     {
@@ -133,16 +142,18 @@ public class PlayerHandler : MonoBehaviour
             Globals.p1.coins = player1.GetComponent<Player>().coins;
             Globals.p1.lives = player1.GetComponent<Player>().lives;
             Globals.p1.id = 1;
+            Globals.p1.specialModeLootHeld = player1.GetComponent<Player>().specialModeLootHeld;
             Globals.p1.prefab = player1; 
         }
 
-        if (player2 != null)
+        if (Globals.numPlayers > 1 && player2 != null)
         {
 
 
             Globals.p2.coins = player2.GetComponent<Player>().coins;
             Globals.p2.lives = player2.GetComponent<Player>().lives;
             Globals.p2.id = 1;
+            Globals.p2.specialModeLootHeld = player2.GetComponent<Player>().specialModeLootHeld;
             Globals.p2.prefab = player2;
         }
     }
@@ -157,11 +168,13 @@ public class PlayerHandler : MonoBehaviour
                 Globals.p1.coins = 0;
                 Globals.p1.lives = 3;
                 Globals.p1.id = 1;
+                Globals.p1.specialModeLootHeld = 1;
                 Globals.p1.prefab = player1;
             }
             player1.GetComponent<Player>().coins = Globals.p1.coins;
             player1.GetComponent<Player>().lives = Globals.p1.lives;
-            
+            player1.GetComponent<Player>().specialModeLootHeld = Globals.p1.specialModeLootHeld;
+
         }
 
         if (Globals.numPlayers > 1 && player2 != null)
@@ -171,10 +184,12 @@ public class PlayerHandler : MonoBehaviour
                 Globals.p2.coins = 0;
                 Globals.p2.lives = 3;
                 Globals.p2.id = 1;
+                Globals.p2.specialModeLootHeld = 1;
                 Globals.p2.prefab = player2;
             }
             player2.GetComponent<Player>().coins = Globals.p2.coins;
             player2.GetComponent<Player>().lives = Globals.p2.lives;
+            player2.GetComponent<Player>().specialModeLootHeld = Globals.p2.specialModeLootHeld;
         }
     }
 
@@ -185,6 +200,7 @@ public class PlayerHandler : MonoBehaviour
             if(player2 != null)
             {
                 player2.GetComponent<Player>().coins += coins;
+                player2.GetComponent<Player>().specialModeLootHeld++;
             }
 
         }
@@ -193,9 +209,11 @@ public class PlayerHandler : MonoBehaviour
             if (player1 != null)
             {
                 player1.GetComponent<Player>().coins += coins;
+                player1.GetComponent<Player>().specialModeLootHeld++;
             }
 
         }
     }
+
 
 }

@@ -9,6 +9,8 @@ public class PointManager : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
     public Timer timer1;
+
+    public bool prevPausedState = false; 
    
     // Start is called before the first frame update
     void Start()
@@ -65,7 +67,18 @@ public class PointManager : MonoBehaviour
             GameObject.Find("Lives").GetComponent<TextMeshProUGUI>().SetText("Lives (P1): " + player1.getLives() + "\n" + "Lives (P2): " + player2.getLives() + "\n" + "Lives (P3): " + player3.getLives() + "\n" + "Lives (P4): " + player4.getLives());
         }*/
 
-        if (timer1.running)
+        if (Globals.gamePaused && !prevPausedState)
+        {
+            timer1.running = false;
+        }
+        else if(!Globals.gamePaused && prevPausedState)
+        {
+            timer1.running = true;
+        }
+
+        prevPausedState = Globals.gamePaused;
+
+            if (timer1.running)
         {
             float sec = Mathf.FloorToInt(timer1.timeLeft%60);
             float min = Mathf.FloorToInt(timer1.timeLeft/60);
@@ -78,6 +91,11 @@ public class PointManager : MonoBehaviour
             GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().SetText("00:00");
         }
         
+
+            if(timer1.timeLeft == 0)
+        {
+            Debug.Log("Game Over!");
+        }
 
     }
 

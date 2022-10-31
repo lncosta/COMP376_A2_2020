@@ -29,7 +29,15 @@ public class Bear : MonoBehaviour
     private Timer timer;
 
     public int attackFrequency = 5;
-    public int enemySpeed = 3; 
+    public int enemySpeed = 3;
+
+    public GameObject explosionParticles;
+
+    public bool dead = false;
+
+    public Timer deathTimer; 
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +47,12 @@ public class Bear : MonoBehaviour
         timer.timeDefault = attackFrequency;
         timer.running = true;
         timer.Reset();
+
+        dead = false;
+        deathTimer = gameObject.AddComponent(typeof(Timer)) as Timer; ;
+        deathTimer.timeDefault = 6;
+        deathTimer.running = false;
+        deathTimer.timeLeft = 0;
     }
 
     // Update is called once per frame
@@ -66,6 +80,10 @@ public class Bear : MonoBehaviour
 
     public void Attack(GameObject player)
     {
+        if (dead)
+        {
+            return; 
+        }
         Player p = player.GetComponent<Player>();
 
         p.TakeDamage();
@@ -76,7 +94,10 @@ public class Bear : MonoBehaviour
 
     public void ShootFire()
     {
-
+        if (dead)
+        {
+            return;
+        }
         for(int i = -2; i < 5; i++)
         {
             var sphere = Instantiate(MagicSphere, spawnLocation.position + new Vector3(0, i, 0), spawnLocation.rotation);
@@ -125,7 +146,8 @@ public class Bear : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("The boss has died!"); 
+        Debug.Log("The boss has died!");
+        dead = true; 
         if(p2hits > p1hits)
         {
             playerHandler.GetComponent<PlayerHandler>().AwardPoints(2, coinsToGive);
@@ -141,6 +163,10 @@ public class Bear : MonoBehaviour
         }
 
         animator.Play("Death");
-        Destroy(gameObject, 2); 
+        GameObject particles = Instantiate(explosionParticles, bearObject.transform);
+
+        deathTimer.Reset();
+        //Destroy(gameObject, 5);
+        //Destroy(particles, 6);
     }
 }

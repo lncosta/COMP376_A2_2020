@@ -26,6 +26,10 @@ public class EnemySpawner : MonoBehaviour
 
     public int spawnSpecialModifier = 1;
 
+    public bool bossHasBeenSummoned = false;
+
+    public GameObject levelCompletePanel; 
+
 
     public GameObject boss; 
     // Start is called before the first frame update
@@ -43,6 +47,7 @@ public class EnemySpawner : MonoBehaviour
 
         spawnSpecialModifier = 1; 
         boss.SetActive(false);
+        bossHasBeenSummoned = false; 
 
     }
 
@@ -86,10 +91,20 @@ public class EnemySpawner : MonoBehaviour
         }
 
         //Spawning Boss after all waves are done:
-        if(enemyWaves <= 0)
+        if(enemyWaves <= 0 && !bossHasBeenSummoned)
         {
             enemySpawnSound.Play(); 
-            boss.SetActive(true); 
+            boss.SetActive(true);
+            bossHasBeenSummoned = true; 
+        }
+        else if (bossHasBeenSummoned)
+        {
+            if (boss.GetComponentInChildren<Bear>().dead && !boss.GetComponentInChildren<Bear>().deathTimer.running)
+            {
+                Globals.gamePaused = true;
+                Time.timeScale = 0;
+                levelCompletePanel.SetActive(true);
+            }
         }
 
         

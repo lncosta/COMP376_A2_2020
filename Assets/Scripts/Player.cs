@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     public string jump = "Jump";
     public string dash = "Fire3";
     public string pause = "";
+    public string specialModeKey = "SpecialMode1";
 
     public bool lostLife = false;
     public int missedShotsCounter = 0;
@@ -52,7 +53,10 @@ public class Player : MonoBehaviour
     public int consecutiveDamageTaken = 0;
 
 
-    public AudioSource damageTakenSound; 
+    public AudioSource damageTakenSound;
+
+
+    public int specialModeLootHeld = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -173,6 +177,26 @@ public class Player : MonoBehaviour
 
         animator.SetBool("Shooting", isShooting);
 
+
+        //Perform input check for special mode:
+
+        SpecialModeCheck();
+
+    }
+
+    public void SpecialModeCheck()
+    {
+        if (!Globals.specialMode)
+        {
+            if(Input.GetButtonDown(specialModeKey) && specialModeLootHeld > 0)
+            {
+                specialModeLootHeld--;
+
+                GetComponentInParent<PlayerHandler>().TriggerSpecialMode(); //Special Mode management is done on Handler side
+
+
+            }
+        }
     }
 
     public int getScore()
@@ -197,6 +221,12 @@ public class Player : MonoBehaviour
 
     public void TakeDamage()
     {
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SlideRight"))
+        {
+            Debug.Log("Player is dodging.");
+            return; 
+        }
         Debug.Log("Player took damage!");
         consecutiveDamageTaken++;
         damageTakenSound.Play();

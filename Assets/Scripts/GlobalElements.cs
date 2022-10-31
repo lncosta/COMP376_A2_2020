@@ -9,7 +9,9 @@ public class PlayerData
     public GameObject prefab;
     public int id;
     public int coins;
-    public int lives; 
+    public int lives;
+
+    public int specialModeLootHeld; 
 }
 public static class Globals
 {

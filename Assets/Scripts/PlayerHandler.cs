@@ -32,6 +32,7 @@ public class PlayerHandler : MonoBehaviour
     void Start()
     {
 
+        Debug.Log("Player Handler Active");
         playerSize = player2.GetComponent<MeshCollider>().bounds.size.z; 
         screenBoundary = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, camera.transform.position.z));
         xMin = screenBoundary.x + playerSize;
@@ -136,14 +137,17 @@ public class PlayerHandler : MonoBehaviour
 
     public void SavePlayerData()
     { //Storing player data between levels
-        if(player1 != null)
+        Debug.Log("Player Handler Saving Player Data.");
+        if (player1 != null)
         {
             
             Globals.p1.coins = player1.GetComponent<Player>().coins;
             Globals.p1.lives = player1.GetComponent<Player>().lives;
             Globals.p1.id = 1;
             Globals.p1.specialModeLootHeld = player1.GetComponent<Player>().specialModeLootHeld;
-            Globals.p1.prefab = player1; 
+            Globals.p1.prefab = player1;
+
+            //Debug.Log("Player 1: coins -" + Globals.p1.coins);
         }
 
         if (Globals.numPlayers > 1 && player2 != null)
@@ -156,10 +160,13 @@ public class PlayerHandler : MonoBehaviour
             Globals.p2.specialModeLootHeld = player2.GetComponent<Player>().specialModeLootHeld;
             Globals.p2.prefab = player2;
         }
+
+        
     }
 
     public void LoadPlayerData()
     {
+        Debug.Log("Player Handler Loading Player Data.");
         if (player1 != null)
         {
             if(Globals.p1 == null)
@@ -171,9 +178,12 @@ public class PlayerHandler : MonoBehaviour
                 Globals.p1.specialModeLootHeld = 1;
                 Globals.p1.prefab = player1;
             }
+           
             player1.GetComponent<Player>().coins = Globals.p1.coins;
             player1.GetComponent<Player>().lives = Globals.p1.lives;
             player1.GetComponent<Player>().specialModeLootHeld = Globals.p1.specialModeLootHeld;
+
+            Debug.Log("Player 1: coins -" + player1.GetComponent<Player>().coins);
 
         }
 
@@ -191,6 +201,9 @@ public class PlayerHandler : MonoBehaviour
             player2.GetComponent<Player>().lives = Globals.p2.lives;
             player2.GetComponent<Player>().specialModeLootHeld = Globals.p2.specialModeLootHeld;
         }
+
+        Globals.gamePaused = false;
+        Time.timeScale = 1;
     }
 
     public void AwardPoints(int id, int coins)

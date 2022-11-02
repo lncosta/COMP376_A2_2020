@@ -68,8 +68,8 @@ public class Player : MonoBehaviour
 
         rb = gameObject.GetComponent<Rigidbody>();
         isSliding = false;
-        coins = 0;
-        lives = 3;
+        //coins = 0;
+        //lives = 3;
         animator = gameObject.GetComponent<Animator>(); //Get animator component
 
         instance = this;

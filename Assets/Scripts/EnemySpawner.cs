@@ -31,7 +31,9 @@ public class EnemySpawner : MonoBehaviour
     public GameObject levelCompletePanel; 
 
 
-    public GameObject boss; 
+    public GameObject boss;
+
+    public AudioSource winSound; 
     // Start is called before the first frame update
     void Start()
     {
@@ -101,6 +103,7 @@ public class EnemySpawner : MonoBehaviour
         {
             if (boss.GetComponentInChildren<Bear>().dead && !boss.GetComponentInChildren<Bear>().deathTimer.running)
             {
+                winSound.Play(); 
                 Globals.gamePaused = true;
                 Time.timeScale = 0;
                 levelCompletePanel.SetActive(true);

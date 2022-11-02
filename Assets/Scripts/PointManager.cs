@@ -15,7 +15,11 @@ public class PointManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(timer1 != null)
+        {
+            timer1.Reset();
+        }
+       
     }
 
     // Update is called once per frame
@@ -96,6 +100,12 @@ public class PointManager : MonoBehaviour
         {
             Debug.Log("Game Over!");
         }
+
+    }
+
+    void ResetAll()
+    {
+        timer1.Reset();
 
     }
 

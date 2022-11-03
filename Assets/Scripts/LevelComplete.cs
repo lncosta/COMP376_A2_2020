@@ -27,8 +27,11 @@ public class LevelComplete : MonoBehaviour
         Globals.gamePaused = false;
         Time.timeScale = 1;
         Debug.Log("New Scene Loaded");
-        if(SceneManager.sceneCount > (x + 2))
-        {
+
+        //bool valid = SceneManager.GetSceneByBuildIndex(x + 1).IsValid();
+        bool valid = ((x+1) < SceneManager.sceneCountInBuildSettings);
+        if (!valid)
+        { //Loop back to the menu at the end; 
             Globals.resetAll();
             Globals.currentLevel = 0;
             SceneManager.LoadScene(0);

@@ -105,7 +105,7 @@ public class Bear : MonoBehaviour
 
     public void ShootFire()
     {
-        if (dead)
+        if (dead || enemyTypeDescription == "Spider")
         {
             return;
         }

@@ -27,7 +27,17 @@ public class LevelComplete : MonoBehaviour
         Globals.gamePaused = false;
         Time.timeScale = 1;
         Debug.Log("New Scene Loaded");
-        SceneManager.LoadScene(x + 1);
+        if(SceneManager.sceneCount > (x + 2))
+        {
+            Globals.resetAll();
+            Globals.currentLevel = 0;
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene(Globals.currentLevel);
+        }
+        
     }
     public void GameQuit()
     {

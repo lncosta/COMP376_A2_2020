@@ -33,7 +33,13 @@ public class EnemySpawner : MonoBehaviour
 
     public GameObject boss;
 
-    public AudioSource winSound; 
+    public AudioSource winSound;
+
+    public int timeBetweenWaves = 15;
+
+    
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -44,12 +50,14 @@ public class EnemySpawner : MonoBehaviour
         }
 
         timer = gameObject.AddComponent<Timer>();
-        timer.timeLeft = 15;
-        timer.timeDefault = 15;
+        timer.timeLeft = timeBetweenWaves;
+        timer.timeDefault = timeBetweenWaves;
 
         spawnSpecialModifier = 1; 
         boss.SetActive(false);
-        bossHasBeenSummoned = false; 
+        bossHasBeenSummoned = false;
+
+       
 
     }
 
@@ -87,6 +95,7 @@ public class EnemySpawner : MonoBehaviour
                 float x = Random.Range(marker1.transform.position.x, marker2.transform.position.x);
                 Instantiate(goonPrefab, new Vector3(x, yaxis, zaxis), Quaternion.Euler(0, 45, 0));  //Instantiates goons within position range
             }
+            //timer.timeDefault = timeBetweenWaves * Random.Range(0.5f, 1);
             timer.Reset();
             enemyWaves--;
             enemySpawnSound.Play();

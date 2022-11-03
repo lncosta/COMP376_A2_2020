@@ -30,7 +30,16 @@ public static class Globals
 
     public static int currentLevel = 0;
 
-    public static bool gamePaused = false; 
+    public static bool gamePaused = false;
+
+    public static bool wasReset = false;
+
+    public static void resetAll()
+    {
+        p1 = null;
+        p2 = null;
+        wasReset = true;
+    }
 
 
 }

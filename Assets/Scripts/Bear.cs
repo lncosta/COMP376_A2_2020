@@ -30,14 +30,19 @@ public class Bear : MonoBehaviour
 
     public int attackFrequency = 5;
     public int enemySpeed = 3;
+    public int enemyTypeModifier = 1;
 
     public GameObject explosionParticles;
 
     public bool dead = false;
 
-    public Timer deathTimer; 
+    public Timer deathTimer;
 
+    public string enemyTypeDescription = "Bear";
 
+    public int timeBetweenAttacks = 6;
+
+    public AudioSource deathSound;
 
     // Start is called before the first frame update
     void Start()
@@ -50,9 +55,14 @@ public class Bear : MonoBehaviour
 
         dead = false;
         deathTimer = gameObject.AddComponent(typeof(Timer)) as Timer; ;
-        deathTimer.timeDefault = 6;
+        deathTimer.timeDefault = timeBetweenAttacks;
         deathTimer.running = false;
         deathTimer.timeLeft = 0;
+
+        if(deathSound == null)
+        {
+            deathSound = GameObject.FindGameObjectWithTag("DeathSoundPlayer").GetComponent<AudioSource>();
+        }
     }
 
     // Update is called once per frame
@@ -62,6 +72,7 @@ public class Bear : MonoBehaviour
         {
             ShootFire();
             //MoveTowardsPlayer();
+            timer.timeDefault = timeBetweenAttacks * Random.Range(0.5f, 1.0f); //Randomize attack frequency
             timer.Reset();
         }
 
@@ -98,9 +109,18 @@ public class Bear : MonoBehaviour
         {
             return;
         }
-        for(int i = -2; i < 5; i++)
+        for(int i = -2 * enemyTypeModifier; i < 5 * enemyTypeModifier; i++)
         {
-            var sphere = Instantiate(MagicSphere, spawnLocation.position + new Vector3(0, i, 0), spawnLocation.rotation);
+            GameObject sphere;
+            if (enemyTypeDescription == "Dragon")
+            {
+                sphere = Instantiate(MagicSphere, spawnLocation.position + new Vector3(3*(i + 2), (i *0.1f), 0), spawnLocation.rotation);
+            }
+            else
+            {
+                sphere = Instantiate(MagicSphere, spawnLocation.position + new Vector3(0, i, 0), spawnLocation.rotation);
+            }
+            
 
             sphere.GetComponent<Rigidbody>().velocity = -spawnLocation.forward * speed;
         }
@@ -162,6 +182,7 @@ public class Bear : MonoBehaviour
             playerHandler.GetComponent<PlayerHandler>().AwardPoints(1, coinsToGive/2);
         }
 
+        deathSound.Play();
         animator.Play("Death");
         GameObject particles = Instantiate(explosionParticles, bearObject.transform);
 

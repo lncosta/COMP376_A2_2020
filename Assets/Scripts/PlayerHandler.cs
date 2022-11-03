@@ -49,6 +49,10 @@ public class PlayerHandler : MonoBehaviour
                 player2.SetActive(false); 
             }
         }
+        else
+        {
+            player2.SetActive(true);
+        }
 
         //Special Mode Handling:
         Globals.specialMode = false;
@@ -167,6 +171,27 @@ public class PlayerHandler : MonoBehaviour
     public void LoadPlayerData()
     {
         Debug.Log("Player Handler Loading Player Data.");
+        Debug.Log("Number of Active Players: " + Globals.numPlayers);
+        if (Globals.wasReset)
+        {
+            //Player initialization:
+
+            if (Globals.numPlayers < 2)
+            {
+
+                if (player2 != null)
+                {
+                    player2.SetActive(false);
+                }
+            }
+            else
+            {
+                player2.SetActive(true);
+            }
+
+            Globals.wasReset = false; 
+
+        }
         if (player1 != null)
         {
             if(Globals.p1 == null)

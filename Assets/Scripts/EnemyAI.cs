@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class EnemyAI : MonoBehaviour
@@ -25,13 +26,14 @@ public class EnemyAI : MonoBehaviour
     public float timeLeft = 30;
     public bool running = false;
 
-    public int specialModeMod = 1; 
+    public int specialModeMod = 1;
 
-
+    public AudioSource deathSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        level = SceneManager.GetActiveScene().buildIndex;
         speed += level * 2; 
         rb = GetComponent<Rigidbody>();
         animator = zombie.GetComponent<Animator>();
@@ -42,6 +44,11 @@ public class EnemyAI : MonoBehaviour
         running = true;
 
         specialModeMod = 1; //Speed modifier during special mode
+
+        if (deathSound == null)
+        {
+            deathSound = GameObject.FindGameObjectWithTag("DeathSoundPlayer").GetComponent<AudioSource>();
+        }
 
     }
 
@@ -113,7 +120,7 @@ public class EnemyAI : MonoBehaviour
         int walkWait = Random.Range(1, 2);
         int walkTime = Random.Range(1, 10);
         int walkDirection = Random.Range(-10, 10);
-        int rotationTime = Random.Range(1, 5);
+        int rotationTime = Random.Range(1, 2);
 
         idle = false;
 
@@ -153,6 +160,7 @@ public class EnemyAI : MonoBehaviour
 
     public void playDeath()
     {
+        deathSound.Play();
         animator.Play("Die");
         Destroy(gameObject);
     }

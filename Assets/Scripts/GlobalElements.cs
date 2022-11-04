@@ -34,11 +34,15 @@ public static class Globals
 
     public static bool wasReset = false;
 
+    public static bool specialModeOverride = false; 
+
     public static void resetAll()
     {
         p1 = null;
         p2 = null;
         wasReset = true;
+        specialModeOverride = false;
+        currentLevel = 0;
     }
 
 

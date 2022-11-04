@@ -55,11 +55,24 @@ public class PlayerHandler : MonoBehaviour
         }
 
         //Special Mode Handling:
-        Globals.specialMode = false;
-        specialModeTimer = gameObject.AddComponent<Timer>();
-        specialModeTimer.timeDefault = specialModeTimeDuration;
-        specialModeTimer.running = false;
-        specialModeTimer.timeLeft = 0; 
+        if (Globals.specialModeOverride)
+        {
+            Globals.specialMode = true;
+            specialModeTimer = gameObject.AddComponent<Timer>();
+            specialModeTimer.running = true;
+            specialModeTimer.timeLeft = 60*60*1000;
+            TriggerSpecialModeOverride();
+        }
+        else
+        {
+            Globals.specialMode = false;
+            specialModeTimer = gameObject.AddComponent<Timer>();
+            specialModeTimer.timeDefault = specialModeTimeDuration;
+            specialModeTimer.running = false;
+            specialModeTimer.timeLeft = 0;
+        }
+        
+       
 
         LoadPlayerData(); 
     }
@@ -70,7 +83,7 @@ public class PlayerHandler : MonoBehaviour
 
         //Special Mode Handling:
 
-        if (Input.GetKeyDown(KeyCode.Tab) && !Globals.specialMode)
+        if (Input.GetKeyDown(KeyCode.Tab) && !Globals.specialMode && !Globals.specialModeOverride)
         {
             Globals.specialMode = true;
             specialModeTimer.Reset();
@@ -78,7 +91,7 @@ public class PlayerHandler : MonoBehaviour
             specialModeLight.SetActive(true);
         }
 
-        if (!specialModeTimer.running)
+        if (!specialModeTimer.running && !Globals.specialModeOverride)
         {
             if (Globals.specialMode)
             {
@@ -128,6 +141,14 @@ public class PlayerHandler : MonoBehaviour
         specialModeTimer.Reset();
         specialModeSound.Play();
         specialModeLight.SetActive(true);
+    }
+
+    public void TriggerSpecialModeOverride()
+    {
+        Globals.specialMode = true;
+        specialModeTimer.running = true; 
+        specialModeSound.Play();
+        //specialModeLight.SetActive(true);
     }
 
     void DistanceCorrection()

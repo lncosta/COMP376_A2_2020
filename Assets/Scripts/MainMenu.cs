@@ -17,7 +17,24 @@ public class MainMenu : MonoBehaviour
     public GameObject p1prefab;
     public GameObject p2prefab;
 
-   public void LoadScene(int x)
+    public GameObject gameModeSelectScreen;
+
+    public bool specialModeToggle = false; 
+
+   
+    public void moveToModeSelectScreen()
+    {
+        gameModeSelectScreen.SetActive(true);
+        toPlay.Play();
+    }
+
+    public void specialModeSelected()
+    {
+        Globals.specialModeOverride = true; 
+        PlayLevel1(); 
+    }
+
+    public void LoadScene(int x)
     {
         toPlay.Play();
         Globals.currentLevel = x;
@@ -90,5 +107,11 @@ public class MainMenu : MonoBehaviour
             howtoplay = false;
             instructions.SetActive(howtoplay);
         }
+    }
+
+    public void CloseModeSelect()
+    {
+        gameModeSelectScreen.SetActive(false);
+        toPlay.Play();
     }
 }

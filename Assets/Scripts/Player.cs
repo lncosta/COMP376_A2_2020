@@ -50,13 +50,15 @@ public class Player : MonoBehaviour
 
     public bool isActive = false;
 
-    public int consecutiveDamageTaken = 0;
+    public float consecutiveDamageTaken = 0;
 
 
     public AudioSource damageTakenSound;
 
 
     public int specialModeLootHeld = 0;
+
+    public float lifePointsLostMax = 5; 
 
     // Start is called before the first frame update
     void Start()
@@ -228,10 +230,18 @@ public class Player : MonoBehaviour
             return; 
         }
         Debug.Log("Player took damage!");
-        consecutiveDamageTaken++;
+        if (Globals.specialMode)
+        {
+            consecutiveDamageTaken += 0.5f; //Player only loses half a life point 
+        }
+        else
+        {
+            consecutiveDamageTaken++;
+        }
+        
         damageTakenSound.Play();
 
-        if(consecutiveDamageTaken >= 5)
+        if(consecutiveDamageTaken >= lifePointsLostMax)
         {
             lives--;
             consecutiveDamageTaken = 0;

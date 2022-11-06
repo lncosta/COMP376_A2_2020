@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 
@@ -34,7 +35,9 @@ public static class Globals
 
     public static bool wasReset = false;
 
-    public static bool specialModeOverride = false; 
+    public static bool specialModeOverride = false;
+
+    public static string didTheMostDamage = "";
 
     public static void resetAll()
     {
@@ -43,6 +46,7 @@ public static class Globals
         wasReset = true;
         specialModeOverride = false;
         currentLevel = 0;
+        didTheMostDamage = "";
     }
 
 

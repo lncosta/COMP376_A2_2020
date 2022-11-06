@@ -92,7 +92,9 @@ public class PointManager : MonoBehaviour
         }
         else
         {
-            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().SetText("00:00");
+            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().alignment = TextAlignmentOptions.Left;
+            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().autoSizeTextContainer = true;
+            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().SetText("" + "\n\n\n\n\n\n\n\n" + Globals.didTheMostDamage);
         }
         
 

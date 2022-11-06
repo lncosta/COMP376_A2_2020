@@ -19,7 +19,9 @@ public class ShootMagic : MonoBehaviour
 
     private Timer timer;
 
-    public int shotsLeft = 10; 
+    public int shotsLeft = 10;
+
+    public int secondsToReplenishShot = 1;
     
 
     // Start is called before the first frame update
@@ -29,8 +31,8 @@ public class ShootMagic : MonoBehaviour
         m_Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         timer = gameObject.AddComponent<Timer>();
         timer.running = true; 
-        timer.timeDefault = 2;
-        timer.timeLeft = 2;
+        timer.timeDefault = secondsToReplenishShot;
+        timer.timeLeft = secondsToReplenishShot;
         timer.Reset();
         
     }
@@ -64,7 +66,7 @@ public class ShootMagic : MonoBehaviour
         if (Globals.specialMode)
         {
             if (Input.GetButtonDown(player.mouse0)) //Continuous shooting
-            { //Shoot magic ball
+            { //Shoot magic ball in continuous mode
                 var sphere = Instantiate(MagicSphere, spawnLocation.position, spawnLocation.rotation);
                 sphere.GetComponent<MagicBullet>().player = player;
                 sphere.GetComponent<Rigidbody>().velocity = transform.forward * speed;
@@ -90,6 +92,7 @@ public class ShootMagic : MonoBehaviour
 
         if(timer.timeLeft == 0)
         {
+            //Replenish one more shot
            // Debug.Log(shotsLeft);
             shotsLeft++;
             if(shotsLeft >= 11)

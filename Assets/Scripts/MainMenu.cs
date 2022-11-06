@@ -42,6 +42,10 @@ public class MainMenu : MonoBehaviour
     }
    public void PlayLevel1()
     {
+        //Generate Random seed:
+        Random.InitState((int)System.DateTime.Now.Ticks);
+        
+
         generatePlayerData();
         toPlay.Play();
         Globals.currentLevel = 1;

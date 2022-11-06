@@ -1146,14 +1146,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b26e5bf29180d439b4b8c60e96d9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberToSpawn: 5
+  numberToSpawn: 10
   goonPrefab: {fileID: 5198777702499543579, guid: fdb3a5d652dc0c64da95ddf62028a9d2, type: 3}
   witchPrefab: {fileID: 6372786256433799716, guid: 4b5788473e0c77248a7513dd9010ea82, type: 3}
   marker1: {fileID: 2066133089}
   marker2: {fileID: 1950870259}
   yaxis: 5
   zaxis: -3
-  enemyWaves: 6
+  enemyWaves: 8
   timer: {fileID: 0}
   enemySpawnSound: {fileID: 1351384101}
   witchSpawnSound: {fileID: 946447154}

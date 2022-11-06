@@ -147,8 +147,9 @@ public class Player : MonoBehaviour
             isGrounded = false;
             isSliding = false;
             //Jump Mechanic
-            rb.AddForce(jumpVector * jumpSpeed * 2, ForceMode.Impulse);
-            
+            rb.AddForce(jumpVector * jumpSpeed * 50 *Time.deltaTime, ForceMode.VelocityChange);
+
+           
 
         }
         else if (Input.GetButtonDown(dash) && isGrounded)
@@ -167,10 +168,6 @@ public class Player : MonoBehaviour
             {
                 animator.Play("SlideRight");
             }
-
-            
-
-
             Debug.Log("Sliding");
             
         }
@@ -224,15 +221,15 @@ public class Player : MonoBehaviour
     public void TakeDamage()
     {
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SlideRight"))
-        {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SlideRight") || !isGrounded)
+        { //Player does not take damage when jumping or rolling
             Debug.Log("Player is dodging.");
             return; 
         }
         Debug.Log("Player took damage!");
         if (Globals.specialMode)
         {
-            consecutiveDamageTaken += 0.5f; //Player only loses half a life point 
+            consecutiveDamageTaken += 0.5f; //Player only loses half a life point in special mode
         }
         else
         {
@@ -242,7 +239,7 @@ public class Player : MonoBehaviour
         damageTakenSound.Play();
 
         if(consecutiveDamageTaken >= lifePointsLostMax)
-        {
+        { //Player lost all HP
             lives--;
             consecutiveDamageTaken = 0;
             Debug.Log("Player lost a life!");

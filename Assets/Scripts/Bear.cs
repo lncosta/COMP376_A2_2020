@@ -72,13 +72,9 @@ public class Bear : MonoBehaviour
         {
             ShootFire();
             //MoveTowardsPlayer();
-            timer.timeDefault = timeBetweenAttacks * Random.Range(0.5f, 1.0f); //Randomize attack frequency
+            timer.timeDefault = timeBetweenAttacks * Random.Range(0.25f, 1.0f); //Randomize attack frequency
             timer.Reset();
         }
-
-       
-
-
     }
 
     public void MoveTowardsPlayer()
@@ -132,12 +128,16 @@ public class Bear : MonoBehaviour
 
     public int TakeDamageP1(int dmg)
     {
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3")) {
+            return 0; //Negate damage during attack mode to make the fight better paced
+        
+        }
+        
         hp = hp - dmg;
         p1hits++; 
         if(hp <= 0)
-        {
-            
-            
+        {  
             Die();
             return 1;
 
@@ -150,6 +150,12 @@ public class Bear : MonoBehaviour
 
     public int TakeDamageP2(int dmg)
     {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3"))
+        {
+            return 0; //Negate damage during attack mode to make the fight better paced
+
+        }
+
         hp = hp - dmg;
         p2hits++; 
         if (hp <= 0)
@@ -171,15 +177,21 @@ public class Bear : MonoBehaviour
         if(p2hits > p1hits)
         {
             playerHandler.GetComponent<PlayerHandler>().AwardPoints(2, coinsToGive);
+            Debug.Log("Player 2 did the most damage and gained a special mode token!");
+            Globals.didTheMostDamage = "Player 2 did the most damage and gained a special mode token!";
         }
         else if (p2hits < p1hits)
         {
             playerHandler.GetComponent<PlayerHandler>().AwardPoints(1, coinsToGive);
+            Debug.Log("Player 1 did the most damage and gained a special mode token!");
+            Globals.didTheMostDamage = "Player 1 did the most damage and gained a special mode token!";
         }
         else
         {
             playerHandler.GetComponent<PlayerHandler>().AwardPoints(2, coinsToGive/2);
             playerHandler.GetComponent<PlayerHandler>().AwardPoints(1, coinsToGive/2);
+            Debug.Log("Both players did equal damage and gained a special mode token!");
+            Globals.didTheMostDamage = "Both players did equal damage and gained a special mode token!";
         }
 
         deathSound.Play();

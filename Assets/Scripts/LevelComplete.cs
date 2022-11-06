@@ -44,7 +44,9 @@ public class LevelComplete : MonoBehaviour
     }
     public void GameQuit()
     {
-        Debug.Log("QUIT");
-        Application.Quit();
+        //Loop back to the menu at the end; 
+        Globals.resetAll();
+        Globals.currentLevel = 0;
+        SceneManager.LoadScene(0);
     }
 }

@@ -2922,6 +2922,7 @@ MonoBehaviour:
   p2prefab: {fileID: 3508016468897854367, guid: 6cfda76abe3931a4e92b15bf3897bba7, type: 3}
   gameModeSelectScreen: {fileID: 668107379}
   specialModeToggle: 0
+  frictionless: {fileID: 13400000, guid: 71dd92d20e0f4b1478ea338da7b2a363, type: 2}
 --- !u!114 &1381200811
 MonoBehaviour:
   m_ObjectHideFlags: 0

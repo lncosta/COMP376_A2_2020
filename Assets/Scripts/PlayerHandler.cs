@@ -230,6 +230,13 @@ public class PlayerHandler : MonoBehaviour
             player1.GetComponent<Player>().lives = Globals.p1.lives;
             player1.GetComponent<Player>().specialModeLootHeld = Globals.p1.specialModeLootHeld;
 
+            if(Globals.frictionless != null)
+            {
+                player1.GetComponent<MeshCollider>().material = Globals.frictionless;
+            }
+
+            
+
             Debug.Log("Player 1: coins -" + player1.GetComponent<Player>().coins);
 
         }
@@ -247,6 +254,12 @@ public class PlayerHandler : MonoBehaviour
             player2.GetComponent<Player>().coins = Globals.p2.coins;
             player2.GetComponent<Player>().lives = Globals.p2.lives;
             player2.GetComponent<Player>().specialModeLootHeld = Globals.p2.specialModeLootHeld;
+
+
+            if (Globals.frictionless != null)
+            {
+                player2.GetComponent<MeshCollider>().material = Globals.frictionless;
+            }
         }
 
         Globals.gamePaused = false;

@@ -39,7 +39,10 @@ public static class Globals
 
     public static string didTheMostDamage = "";
 
-    public static bool oneDead = false; 
+    public static bool oneDead = false;
+
+
+    public static PhysicMaterial frictionless = null;
 
     public static void resetAll()
     {

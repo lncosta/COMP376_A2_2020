@@ -29,7 +29,7 @@ public class MagicBullet : MonoBehaviour
 
     private void Update()
     {
-        if (!timer.running)
+        if (!timer.running || counter > 1)
         {
             if(counter == 0)
             {
@@ -115,12 +115,7 @@ public class MagicBullet : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         { //Kill goon
 
-            if(counter > 1)
-            {
-                //Bonus shot for only if two enemies line up
-                Destroy(gameObject);
-                return; 
-            }
+           
 
             Debug.Log("Player killed a goon!");
             //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();

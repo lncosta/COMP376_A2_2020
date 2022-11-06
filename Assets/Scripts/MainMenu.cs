@@ -19,9 +19,11 @@ public class MainMenu : MonoBehaviour
 
     public GameObject gameModeSelectScreen;
 
-    public bool specialModeToggle = false; 
+    public bool specialModeToggle = false;
 
-   
+    public PhysicMaterial frictionless;
+
+
     public void moveToModeSelectScreen()
     {
         gameModeSelectScreen.SetActive(true);
@@ -72,6 +74,8 @@ public class MainMenu : MonoBehaviour
             Globals.p2.specialModeLootHeld = 1;
             Globals.p2.prefab = p2prefab;
         }
+
+        Globals.frictionless = frictionless; 
     }
 
    public void SetPlayerNum()

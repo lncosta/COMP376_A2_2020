@@ -111,15 +111,19 @@ public class Player : MonoBehaviour
             Globals.oneDead = true;
             return; 
         }
+        //Perform input check for special mode:
+
+        SpecialModeCheck();
 
 
-       //Obtaining player input:
+        //Obtaining player input:
         moveHor = Input.GetAxisRaw(inputHor);
         float moveVert = Input.GetAxisRaw(inputVert);
         Vector3 movement = new Vector3(moveHor, 0.0f, moveVert);
         moveVert = 0.0f;
         Vector3 movement_limited = new Vector3(moveHor, 0.0f, moveVert);
-      
+
+       
         //Rotate Player Character
         if (moveHor != 0 || moveVert != 0)
         {
@@ -151,7 +155,7 @@ public class Player : MonoBehaviour
             isGrounded = false;
             isSliding = false;
             //Jump Mechanic
-            rb.AddForce(jumpVector * jumpSpeed * 55 *Time.deltaTime, ForceMode.VelocityChange);
+            rb.AddForce(jumpVector * jumpSpeed*1.7f, ForceMode.Impulse);
 
            
 
@@ -181,9 +185,7 @@ public class Player : MonoBehaviour
         animator.SetBool("Shooting", isShooting);
 
 
-        //Perform input check for special mode:
-
-        SpecialModeCheck();
+       
 
     }
 

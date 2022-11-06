@@ -77,6 +77,14 @@ public class EnemySpawner : MonoBehaviour
         {
             spawnSpecialModifier = 1;
         }
+
+        //Difficulty adjustment for multiplayer mode:
+
+        if(Globals.numPlayers > 1)
+        {
+            spawnSpecialModifier += 1;
+        }
+
         float chance = Random.Range(0.0f, 1.0f); //Randomize the chance of the witch spawning
         if (timer.timeLeft == 0 && enemyWaves > 0)
         { //Spawn waves of enemies every x seconds, with a max number of waves per level

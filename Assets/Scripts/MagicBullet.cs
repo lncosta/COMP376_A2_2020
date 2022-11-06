@@ -23,6 +23,8 @@ public class MagicBullet : MonoBehaviour
         //Destroy(gameObject, count); //Destroy object after x seconds
 
         
+
+        
     }
 
     private void Update()
@@ -107,9 +109,80 @@ public class MagicBullet : MonoBehaviour
        
     }
 
-    
 
-    
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        { //Kill goon
+
+            if(counter > 1)
+            {
+                //Bonus shot for only if two enemies line up
+                Destroy(gameObject);
+                return; 
+            }
+
+            Debug.Log("Player killed a goon!");
+            //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            player.giveCoins(collision.gameObject.GetComponent<EnemyAI>().coins);
+            collision.gameObject.GetComponent<EnemyAI>().playDeath();
+            //Destroy(gameObject);
+
+            counter++;
+            return;
+        }
+        else if (collision.gameObject.tag == "Witch")
+        { //Kill witch once she has taken five shots
+            Debug.Log("Hit the Witch!");
+            int ret = collision.gameObject.GetComponent<Witch>().getShot();
+            if (ret > 0)
+            {
+                //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                player.giveCoins(ret);
+
+            }
+            counter++;
+            Destroy(gameObject);
+
+        }
+        else if (collision.gameObject.tag == "Bear")
+        {
+            Debug.Log("Hit the boss!");
+            int ret = 0;
+
+            if (player.playerID == 2)
+            {
+                ret = collision.gameObject.GetComponentInParent<Bear>().TakeDamageP2(10);
+            }
+            else
+            {
+                ret = collision.gameObject.GetComponentInParent<Bear>().TakeDamageP1(10);
+
+            }
+            counter++;
+            Destroy(gameObject);
+
+
+        }
+        else
+        { //Shot is missed
+            if (timer.timeLeft == 0)
+            {
+                Debug.Log("Player missed a Shot!");
+                //Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                player.missedShotsCounter++;
+                Destroy(gameObject);
+                //timer.Reset();
+            }
+
+
+        }
+
+    }
+
+
+
+
 
 
 }

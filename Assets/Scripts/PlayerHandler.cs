@@ -155,7 +155,7 @@ public class PlayerHandler : MonoBehaviour
     {
             Vector3 updatedPos = player2.transform.position; 
             updatedPos.x = Mathf.Clamp(player2.transform.position.x, xMax, xMin);
-        updatedPos.z = player1.transform.position.z;
+            updatedPos.z = player1.transform.position.z;
             player2.transform.position = updatedPos; 
 
         

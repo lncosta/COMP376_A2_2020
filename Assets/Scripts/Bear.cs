@@ -66,6 +66,12 @@ public class Bear : MonoBehaviour
 
         p1hits = 0;
         p2hits = 0;
+
+        //Difficulty adjustment for multiplayer mode:
+        if (Globals.numPlayers > 1)
+        {
+            hp *= 2;
+        }
     }
 
     // Update is called once per frame

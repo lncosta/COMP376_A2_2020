@@ -34,6 +34,12 @@ public class ShootMagic : MonoBehaviour
         timer.timeDefault = secondsToReplenishShot;
         timer.timeLeft = secondsToReplenishShot;
         timer.Reset();
+
+        if(player.playerID == 2)
+        { //Correction for player prefab
+            transform.position = player.transform.position;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, player.getLookAt(), Time.deltaTime * 1000.0f);
+        }
         
     }
 
@@ -44,6 +50,13 @@ public class ShootMagic : MonoBehaviour
         {
             return;
         }
+
+        if (player.playerID == 2)
+        { //Correction for player prefab
+            transform.position = player.transform.position;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, player.getLookAt(), Time.deltaTime * 1000.0f);
+        }
+
 
         if (Input.GetButton(player.mouse1) && player.isActive)
         { //Aim for active player

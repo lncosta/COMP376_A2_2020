@@ -14,12 +14,22 @@ public class Witch : MonoBehaviour
     public int lightIntensityDefault = 10;
 
     public Transform location;
+
+    public Timer deathTimer;
+    public int timeForDeath = 5;
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         animator.SetBool("Dying", false);
         dead = false;
+
+        deathTimer = gameObject.AddComponent(typeof(Timer)) as Timer;
+        deathTimer.timeDefault = timeForDeath*3;
+        deathTimer.running = false;
+        deathTimer.timeLeft = timeForDeath;
+
+        deathTimer.Reset(); 
 
     }
 
@@ -28,7 +38,7 @@ public class Witch : MonoBehaviour
     {
         innerLight.intensity = lightIntensityDefault;
 
-        if (dead)
+        if (dead || deathTimer.timeLeft == 0)
         {
             playDeath();
         }

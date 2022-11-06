@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PointManager : MonoBehaviour
 {
@@ -87,20 +88,27 @@ public class PointManager : MonoBehaviour
             float sec = Mathf.FloorToInt(timer1.timeLeft%60);
             float min = Mathf.FloorToInt(timer1.timeLeft/60);
 
+            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().autoSizeTextContainer = true;
             GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().SetText(string.Format("{0:00}:{1:00}", min, sec));
 
         }
         else
         {
-            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().alignment = TextAlignmentOptions.Left;
-            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().autoSizeTextContainer = true;
+            GameObject.Find("Timer").AddComponent<ContentSizeFitter>();
+            GameObject.Find("Timer").GetComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+         
             GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().SetText("" + "\n\n\n\n\n\n\n\n" + Globals.didTheMostDamage);
+            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().alignment = TextAlignmentOptions.Left;
+            GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().CalculateLayoutInputHorizontal();
         }
         
 
             if(timer1.timeLeft == 0)
         {
             Debug.Log("Game Over!");
+            Globals.oneDead = true;
+            Globals.hitContinue = 4;
+
         }
 
     }

@@ -77,13 +77,13 @@ public class EnemySpawner : MonoBehaviour
         {
             spawnSpecialModifier = 1;
         }
-        float chance = Random.Range(0, 1); //Randomize the chance of the witch spawning
+        float chance = Random.Range(0.0f, 1.0f); //Randomize the chance of the witch spawning
         if (timer.timeLeft == 0 && enemyWaves > 0)
         { //Spawn waves of enemies every x seconds, with a max number of waves per level
 
-            if (chance < 0.25 && numberWitchSpawned < 2)
+            if (chance <= 0.5 && numberWitchSpawned < 4)
             {
-                //For every wave, there is a 25% chance of the witch spawning
+                //For every wave, there is a 50% chance of the witch spawning
                 numberWitchSpawned++;
                 float x = Random.Range(marker1.transform.position.x, marker2.transform.position.x);
                 Instantiate(witchPrefab, new Vector3(x, 1.4f, zaxis), Quaternion.Euler(0, 90, 0));  //Instantiates witch within position range

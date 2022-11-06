@@ -77,6 +77,8 @@ public class Player : MonoBehaviour
         instance = this;
         animator.SetBool("Idle", true);
         isGrounded = true;
+
+        rb.velocity = new Vector3(0, 0, 0) ;
     }
 
     // Update is called once per frame
@@ -106,6 +108,8 @@ public class Player : MonoBehaviour
         {
             dead = true;
             Debug.Log("Player is dead!");
+            Globals.oneDead = true;
+            return; 
         }
 
 
@@ -147,7 +151,7 @@ public class Player : MonoBehaviour
             isGrounded = false;
             isSliding = false;
             //Jump Mechanic
-            rb.AddForce(jumpVector * jumpSpeed * 50 *Time.deltaTime, ForceMode.VelocityChange);
+            rb.AddForce(jumpVector * jumpSpeed * 55 *Time.deltaTime, ForceMode.VelocityChange);
 
            
 
@@ -221,7 +225,7 @@ public class Player : MonoBehaviour
     public void TakeDamage()
     {
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SlideRight") || !isGrounded)
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SlideRight") || !isGrounded || animator.GetCurrentAnimatorStateInfo(0).IsName("Jumping"))
         { //Player does not take damage when jumping or rolling
             Debug.Log("Player is dodging.");
             return; 
@@ -239,6 +243,35 @@ public class Player : MonoBehaviour
         damageTakenSound.Play();
 
         if(consecutiveDamageTaken >= lifePointsLostMax)
+        { //Player lost all HP
+            lives--;
+            consecutiveDamageTaken = 0;
+            Debug.Log("Player lost a life!");
+            ghost_handler.Trigger();
+        }
+    }
+
+    public void TakeDamage(float x)
+    {
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SlideRight") || !isGrounded || animator.GetCurrentAnimatorStateInfo(0).IsName("Jumping"))
+        { //Player does not take damage when jumping or rolling
+            Debug.Log("Player is dodging.");
+            return;
+        }
+        Debug.Log("Player took damage!");
+        if (Globals.specialMode)
+        {
+            consecutiveDamageTaken += 0.5f; //Player only loses half a life point in special mode
+        }
+        else
+        {
+            consecutiveDamageTaken += x;
+        }
+
+        damageTakenSound.Play();
+
+        if (consecutiveDamageTaken >= lifePointsLostMax)
         { //Player lost all HP
             lives--;
             consecutiveDamageTaken = 0;

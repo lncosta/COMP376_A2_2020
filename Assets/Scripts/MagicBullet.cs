@@ -21,6 +21,8 @@ public class MagicBullet : MonoBehaviour
         timer.Reset();
         counter = 0; 
         //Destroy(gameObject, count); //Destroy object after x seconds
+
+        
     }
 
     private void Update()

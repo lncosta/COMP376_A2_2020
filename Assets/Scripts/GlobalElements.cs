@@ -39,6 +39,8 @@ public static class Globals
 
     public static string didTheMostDamage = "";
 
+    public static bool oneDead = false; 
+
     public static void resetAll()
     {
         p1 = null;
@@ -47,6 +49,7 @@ public static class Globals
         specialModeOverride = false;
         currentLevel = 0;
         didTheMostDamage = "";
+        oneDead = false;
     }
 
 

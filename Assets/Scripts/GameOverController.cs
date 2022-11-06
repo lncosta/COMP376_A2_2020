@@ -24,7 +24,7 @@ public class GameOverController : MonoBehaviour
     void Update()
     {
         bool oneDead = false;
-        foreach(Player player in players)
+        /*foreach(Player player in players)
         {
             if (player.dead)
             {
@@ -32,6 +32,13 @@ public class GameOverController : MonoBehaviour
                 Time.timeScale = 0;
                 continueCanvas.SetActive(true);
             }
+        }*/
+
+        if (Globals.oneDead)
+        {
+            oneDead = true;
+            Time.timeScale = 0;
+            continueCanvas.SetActive(true);
         }
 
         if (oneDead && !timer1.running)
@@ -43,7 +50,8 @@ public class GameOverController : MonoBehaviour
             float sec = Mathf.FloorToInt(timer1.timeLeft % 60);
             float min = Mathf.FloorToInt(timer1.timeLeft / 60);
 
-            timerSlot.GetComponent<TextMeshProUGUI>().SetText(string.Format("{0:00}:{1:00}", min, sec));
+            timerSlot.GetComponent<TextMeshProUGUI>().GetComponent<TextMeshProUGUI>().autoSizeTextContainer = true;
+            timerSlot.GetComponent<TextMeshProUGUI>().SetText(string.Format("{0:00}:{1:00}", min, sec) + "\n\n Attempts Left: " + (3 -Globals.hitContinue));
 
             if(timer1.timeLeft < 1)
             {
@@ -60,10 +68,13 @@ public class GameOverController : MonoBehaviour
     public void Continue()
     {
         Globals.hitContinue++;
+        Globals.oneDead = false; 
         if(Globals.hitContinue < 4)
         {
-            foreach (Player player in players)
+            GameObject[] players2 = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in players2)
             {
+                Player player = p.GetComponent<Player>();
                 if (player.dead)
                 {
                    player.dead = false;
@@ -83,14 +94,18 @@ public class GameOverController : MonoBehaviour
 
     public void BackToMain()
     {
-        foreach (Player player in players)
+        GameObject[] players2 = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players2)
         {
+            Player player = p.GetComponent<Player>();
             if (player.dead)
             {
                 player.dead = false;
                 player.lives = 3;
             }
         }
+        Globals.oneDead = false;
+        Globals.resetAll(); 
         Time.timeScale = 1;
         continueCanvas.SetActive(false);
         SceneManager.LoadScene(0);

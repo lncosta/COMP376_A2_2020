@@ -40,7 +40,7 @@ public class Bear : MonoBehaviour
 
     public string enemyTypeDescription = "Bear";
 
-    public int timeBetweenAttacks = 6;
+    public int timeForDeath = 6;
 
     public AudioSource deathSound;
 
@@ -54,8 +54,8 @@ public class Bear : MonoBehaviour
         timer.Reset();
 
         dead = false;
-        deathTimer = gameObject.AddComponent(typeof(Timer)) as Timer; ;
-        deathTimer.timeDefault = timeBetweenAttacks;
+        deathTimer = gameObject.AddComponent(typeof(Timer)) as Timer; 
+        deathTimer.timeDefault = timeForDeath; 
         deathTimer.running = false;
         deathTimer.timeLeft = 0;
 
@@ -63,6 +63,9 @@ public class Bear : MonoBehaviour
         {
             deathSound = GameObject.FindGameObjectWithTag("DeathSoundPlayer").GetComponent<AudioSource>();
         }
+
+        p1hits = 0;
+        p2hits = 0;
     }
 
     // Update is called once per frame
@@ -72,7 +75,7 @@ public class Bear : MonoBehaviour
         {
             ShootFire();
             //MoveTowardsPlayer();
-            timer.timeDefault = timeBetweenAttacks * Random.Range(0.25f, 1.0f); //Randomize attack frequency
+            timer.timeDefault = (int) (attackFrequency * Random.Range(0.5f, 1.0f)); //Randomize attack frequency
             timer.Reset();
         }
     }
@@ -87,13 +90,20 @@ public class Bear : MonoBehaviour
 
     public void Attack(GameObject player)
     {
-        if (dead)
+        if (dead || Time.timeScale == 0)
         {
             return; 
         }
         Player p = player.GetComponent<Player>();
 
-        p.TakeDamage();
+        if(enemyTypeDescription == "Dragon")
+        {
+            p.TakeDamage(0.5f);
+        }
+        else
+        {
+            p.TakeDamage();
+        }
 
         soundEffect.Play();
         animator.Play("Attack1");
@@ -101,7 +111,7 @@ public class Bear : MonoBehaviour
 
     public void ShootFire()
     {
-        if (dead || enemyTypeDescription == "Spider")
+        if (dead || enemyTypeDescription == "Spider" || Time.timeScale == 0)
         {
             return;
         }
@@ -111,6 +121,7 @@ public class Bear : MonoBehaviour
             if (enemyTypeDescription == "Dragon")
             {
                 sphere = Instantiate(MagicSphere, spawnLocation.position + new Vector3(3*(i + 2), (i *0.1f), 0), spawnLocation.rotation);
+                sphere.GetComponent<Fireball>().reduceDamage = true; 
             }
             else
             {
@@ -157,7 +168,15 @@ public class Bear : MonoBehaviour
         }
 
         hp = hp - dmg;
-        p2hits++; 
+        if(Globals.numPlayers > 1)
+        {
+            p2hits++;
+        }
+        else
+        {
+            p1hits++;
+        }
+        
         if (hp <= 0)
         {
            
@@ -172,6 +191,10 @@ public class Bear : MonoBehaviour
 
     public void Die()
     {
+        if (dead)
+        {
+            return; 
+        }
         Debug.Log("The boss has died!");
         dead = true; 
         if(p2hits > p1hits)
